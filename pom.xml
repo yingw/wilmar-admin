@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>frontend</artifactId>
+
+  <parent>
+    <groupId>cn.wilmar</groupId>
+    <artifactId>vue-boot</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
+    <node.version>v10.11.0</node.version>
+    <npm.version>6.4.1</npm.version>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <version>${frontend-maven-plugin.version}</version>
+        <executions>
+          <!-- 安装 node 和 npm -->
+          <execution>
+            <id>install node and npm</id>
+            <goals>
+              <goal>install-node-and-npm</goal>
+            </goals>
+            <configuration>
+              <nodeVersion>${node.version}</nodeVersion>
+              <npmVersion>${npm.version}</npmVersion>
+              <nodeDownloadRoot>https://npm.taobao.org/mirrors/node/</nodeDownloadRoot>
+              <npmDownloadRoot>https://registry.npm.taobao.org/npm/-/</npmDownloadRoot>
+            </configuration>
+          </execution>
+          <!-- 安装项目所有依赖库 -->
+          <execution>
+            <id>npm install</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <!-- 在 "generate-resources" 阶段执行 npm install -->
+            <phase>generate-resources</phase>
+            <configuration>
+              <arguments>install</arguments>
+            </configuration>
+          </execution>
+          <!-- 执行打包 -->
+          <execution>
+            <id>npm run build</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>run build</arguments>
+            </configuration>
+          </execution>
+          <!-- 用 Jest 单元测试 -->
+          <!--
+         <execution>
+          <id>npm run test:unit</id>
+          <goals>
+              <goal>npm</goal>
+          </goals>
+          <phase>test</phase>
+          <configuration>
+              <arguments>run test:unit</arguments>
+          </configuration>
+          </execution>
+          -->
+          <!-- 执行 Nightwatch 端到端测试 -->
+          <!--
+            <execution>
+          <id>npm run test:e2e</id>
+          <goals>
+              <goal>npm</goal>
+          </goals>
+          <phase>test</phase>
+          <configuration>
+              <arguments>run test:e2e</arguments>
+          </configuration>
+          </execution>
+          -->
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
